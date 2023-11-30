@@ -1,0 +1,17 @@
+{% extends 'layouts/base.html' %}
+{% load sortable_column %}
+{% block content %}
+	<h2>Book</h2>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<p><strong>Name:</strong> {{ book.name }}</p>
+			<p><strong>Author:</strong> {{ book.author }}</p>
+			<p><strong>Price:</strong> {{ book.price }}</p>
+			<p><strong>Description:</strong><br>
+			{{ book.description }}</p>
+			<br><br>
+			<a href="/books" class="btn btn-outline-secondary"><i class="fa fa-arrow-left"></i> Back</a>
+			<a href="{% url 'update_book' book.id %}" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a>
+		</div>
+	</div>
+{% endblock %}
