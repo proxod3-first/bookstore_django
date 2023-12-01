@@ -4,6 +4,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from .models import Book
 from .forms import BookForm
+from matplotlib import pyplot as plt
+import io
+import base64
+
 
 @login_required
 def list_books(request):
@@ -68,3 +72,31 @@ def view_book(request, id):
     book = Book.objects.get(id=id)
 
     return render(request, 'book-detail.html', {'book': book})
+
+
+
+def graph(request):
+    books = Book.objects.all()
+
+    names = [book.name for book in books]
+    prices = [book.price for book in books]
+    fig, ax = plt.subplots()
+
+
+    ax.set_title('Book Prices')
+    ax.set_xlabel('Names')
+    ax.set_ylabel('Prices')
+
+
+    # # Create the bar graph
+    plt.bar(names, prices)
+
+    # Convert the plot to a binary string and get its mime type
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    string = base64.b64encode(buf.read()).decode()
+    mime_type = 'image/png'
+
+    # Return the data to the HTML template
+    return render(request, 'graph.html', {'data': string, 'mime_type': mime_type})

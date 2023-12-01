@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'sortable_column',
     'users',
     'books',
+    'django_matplotlib',
+    'matplotlib'
 ]
 
 MIDDLEWARE = [
